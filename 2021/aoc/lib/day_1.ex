@@ -1,8 +1,5 @@
 defmodule AOC.Day1 do
-  def count_measurements_that_are_larger_than_the_previous_one(measurements)
-      when is_list(measurements) do
-    [first | rest] = measurements
-
+  def count_measurements_that_are_larger_than_the_previous_one([first | rest]) do
     {count, _} =
       Enum.reduce(rest, {0, first}, fn depth, {count, previous} ->
         cond do
