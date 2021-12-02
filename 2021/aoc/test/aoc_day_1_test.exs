@@ -16,16 +16,16 @@ defmodule AOC.Day1.Test do
       assert Day1.count_measurements_that_are_larger_than_the_previous_one([1, 1, 1]) == 0
     end
 
+    test "sums the measurements by chunck of 3" do
+      assert Day1.count_measurements_that_are_larger_than_the_previous_one([1, 2, 3, 4, 5, 6],
+               chunk: 3
+             ) == Day1.count_measurements_that_are_larger_than_the_previous_one([6, 9, 12, 15])
+    end
+
     test "returns 7" do
       assert "../inputs/01/small_inputs.txt"
              |> AOC.parse_file()
              |> Day1.count_measurements_that_are_larger_than_the_previous_one() == 7
-    end
-  end
-
-  describe "sum_measurements_by_chunk/1" do
-    test "sums the measurements by chunck of 3 sliding by 1" do
-      assert Day1.sum_measurements_by_chunk([1, 2, 3, 4, 5, 6]) == [6, 9, 12, 15]
     end
   end
 end
