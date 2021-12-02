@@ -36,7 +36,7 @@ defmodule AOC.Day2 do
   def part2 do
     @inputs
     |> compute_correct_position_of_submarine()
-    |> (fn [horizontal, depth, _] -> horizontal * depth end).()
+    |> then(fn [horizontal, depth, _] -> horizontal * depth end)
     |> IO.inspect(label: "Answer")
   end
 end
