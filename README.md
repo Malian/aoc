@@ -8,5 +8,6 @@
 
 | Day    | Comment | Python                                   |
 | ------ | ------- | ---------------------------------------- |
-| Day 01 | ????    | [Elixir](./2021/aoc/lib/day_1.ex)     |
+| Day 01 | -       | [Elixir](./2021/aoc/lib/day_1.ex)        |
+| Day 02 | -       | [Elixir](./2021/aoc/lib/day_2.ex)        |
 
