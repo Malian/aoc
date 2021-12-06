@@ -2,7 +2,6 @@ defmodule AOC.Day5.Test do
   use ExUnit.Case
 
   alias AOC.Day5.HydrothermalVent
-  alias AOC.Day5.Drawer
 
   @sample """
   0,9 -> 5,9
