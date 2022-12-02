@@ -1,0 +1,200 @@
+# Advent of Code - Day 02
+
+```elixir
+Mix.install([
+  {:kino_aoc, git: "https://github.com/ljgago/kino_aoc"}
+])
+```
+
+## Advent of Code Helper
+
+<!-- livebook:{"attrs":{"day":"2","session_secret":"SESSION_ID","variable":"puzzle_input","year":"2022"},"kind":"Elixir.KinoAOC.HelperCell","livebook_object":"smart_cell"} -->
+
+```elixir
+{:ok, puzzle_input} = KinoAOC.download_puzzle("2022", "2", System.fetch_env!("LB_SESSION_ID"))
+```
+
+<!-- livebook:{"branch_parent_index":0} -->
+
+## Part One
+
+-> Description Part One
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Code
+
+```elixir
+defmodule PartOne do
+  @mapping %{
+    "A" => :rock,
+    "B" => :paper,
+    "C" => :scissors,
+    "X" => :rock,
+    "Y" => :paper,
+    "Z" => :scissors
+  }
+
+  @points %{
+    rock: 1,
+    paper: 2,
+    scissors: 3,
+    lost: 0,
+    draw: 3,
+    win: 6
+  }
+
+  def resolve(input) do
+    IO.puts("--- Part One ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+    input =
+      input
+      |> String.split("\n", trim: true)
+      |> Enum.map(fn line ->
+        line
+        |> String.split(" ", trim: true)
+        |> Enum.map(&@mapping[&1])
+        |> contest()
+      end)
+      |> Enum.sum()
+  end
+
+  def contest([a, a]), do: @points[:draw] + @points[a]
+
+  def contest([:paper, :rock]), do: @points[:lost] + @points[:rock]
+  def contest([:scissors, :rock]), do: @points[:win] + +@points[:rock]
+
+  def contest([:rock, :paper]), do: @points[:win] + @points[:paper]
+  def contest([:scissors, :paper]), do: @points[:lost] + @points[:paper]
+
+  def contest([:paper, :scissors]), do: @points[:win] + @points[:scissors]
+  def contest([:rock, :scissors]), do: @points[:lost] + @points[:scissors]
+end
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartOneTest do
+  use ExUnit.Case, async: true
+  import PartOne
+
+  test "part one" do
+    input = """
+    A Y
+    B X
+    C Z
+    """
+
+    result = run(input)
+    assert result == 15
+  end
+end
+
+ExUnit.run()
+```
+
+### Solution
+
+```elixir
+PartOne.resolve(puzzle_input)
+```
+
+---
+
+<!-- livebook:{"branch_parent_index":0} -->
+
+## Part Two
+
+-> Description Part Two
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Code
+
+```elixir
+defmodule PartTwo do
+  @mapping %{
+    "A" => :rock,
+    "B" => :paper,
+    "C" => :scissors,
+    "X" => :lost,
+    "Y" => :draw,
+    "Z" => :win
+  }
+
+  @points %{
+    rock: 1,
+    paper: 2,
+    scissors: 3,
+    lost: 0,
+    draw: 3,
+    win: 6
+  }
+
+  def resolve(input) do
+    IO.puts("--- Part Two ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+    input =
+      input
+      |> String.split("\n", trim: true)
+      |> Enum.map(fn line ->
+        line
+        |> String.split(" ", trim: true)
+        |> Enum.map(&@mapping[&1])
+        |> contest()
+      end)
+      |> Enum.sum()
+  end
+
+  def contest([:paper, :lost]), do: @points[:lost] + @points[:rock]
+  def contest([:paper, :win]), do: @points[:win] + @points[:scissors]
+  def contest([:paper, :draw]), do: @points[:draw] + @points[:paper]
+
+  def contest([:rock, :lost]), do: @points[:lost] + @points[:scissors]
+  def contest([:rock, :win]), do: @points[:win] + @points[:paper]
+  def contest([:rock, :draw]), do: @points[:draw] + @points[:rock]
+
+  def contest([:scissors, :lost]), do: @points[:lost] + @points[:paper]
+  def contest([:scissors, :win]), do: @points[:win] + @points[:rock]
+  def contest([:scissors, :draw]), do: @points[:draw] + @points[:scissors]
+end
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartTwoTest do
+  use ExUnit.Case, async: true
+  import PartTwo
+
+  test "part two" do
+    input = """
+    A Y
+    B X
+    C Z
+    """
+
+    result = run(input)
+    assert result == 12
+  end
+end
+
+ExUnit.run()
+```
+
+### Solution
+
+```elixir
+PartTwo.resolve(puzzle_input)
+```
