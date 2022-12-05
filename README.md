@@ -27,10 +27,6 @@ I used LiveBook to solve the AOC in 2022. Install Livebook with docker to run th
 | Day 01 | -       | [Elixir](./2022/aoc/day_1.livemd) |
 | Day 02 | -       | [Elixir](./2022/aoc/day_2.livemd) |
 | Day 03 | -       |  				       |
-| Day 04 | -       |  				       |
+| Day 04 | -       | [Elixir](./2022/aoc/day_4.livemd) |
 | Day 05 | -       | [Elixir](./2022/aoc/day_5.livemd) |
-
-
-
-
 
