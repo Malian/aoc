@@ -8,14 +8,10 @@ Mix.install([
 
 ## Advent of Code Helper
 
-<!-- livebook:{"attrs":{"day":"5","session_secret":"SESSSION_ID","variable":"puzzle_input","year":"2022"},"kind":"Elixir.KinoAOC.HelperCell","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":{"day":"5","session_secret":"SESSION_ID","variable":"puzzle_input","year":"2022"},"kind":"Elixir.KinoAOC.HelperCell","livebook_object":"smart_cell"} -->
 
 ```elixir
-{:ok, puzzle_input} = KinoAOC.download_puzzle("2022", "5", System.fetch_env!("LB_SESSSION_ID"))
-```
-
-```elixir
-IO.inspect(puzzle_input, pretty: true)
+{:ok, puzzle_input} = KinoAOC.download_puzzle("2022", "5", System.fetch_env!("LB_SESSION_ID"))
 ```
 
 <!-- livebook:{"branch_parent_index":0} -->
@@ -131,7 +127,7 @@ ExUnit.run()
 ### Solution
 
 ```elixir
-PartOne.resolve("                " <> puzzle_input)
+PartOne.resolve(puzzle_input)
 ```
 
 ---
@@ -251,5 +247,5 @@ ExUnit.run()
 ### Solution
 
 ```elixir
-PartTwo.resolve("                " <> puzzle_input)
+PartTwo.resolve(puzzle_input)
 ```
