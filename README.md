@@ -17,6 +17,7 @@
 | Day 05 |                        | [Elixir](./2021/aoc/lib/day_5.ex) |
 | Day 06 |                        | [Elixir](./2021/aoc/lib/day_6.ex) |
 
+
 ## 2022
 
 I used LiveBook to solve the AOC in 2022. Install Livebook with docker to run the live files (https://livebook.dev/)
@@ -25,6 +26,10 @@ I used LiveBook to solve the AOC in 2022. Install Livebook with docker to run th
 | ------ | ------- | --------------------------------- |
 | Day 01 | -       | [Elixir](./2022/aoc/day_1.livemd) |
 | Day 02 | -       | [Elixir](./2022/aoc/day_2.livemd) |
+| Day 03 | -       |  				       |
+| Day 04 | -       |  				       |
+| Day 05 | -       | [Elixir](./2022/aoc/day_5.livemd) |
+
 
 
 

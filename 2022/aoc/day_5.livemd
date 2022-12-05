@@ -1,0 +1,255 @@
+# Advent of Code - Day 05
+
+```elixir
+Mix.install([
+  {:kino_aoc, git: "https://github.com/ljgago/kino_aoc"}
+])
+```
+
+## Advent of Code Helper
+
+<!-- livebook:{"attrs":{"day":"5","session_secret":"SESSSION_ID","variable":"puzzle_input","year":"2022"},"kind":"Elixir.KinoAOC.HelperCell","livebook_object":"smart_cell"} -->
+
+```elixir
+{:ok, puzzle_input} = KinoAOC.download_puzzle("2022", "5", System.fetch_env!("LB_SESSSION_ID"))
+```
+
+```elixir
+IO.inspect(puzzle_input, pretty: true)
+```
+
+<!-- livebook:{"branch_parent_index":0} -->
+
+## Part One
+
+-> Description Part One
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Code
+
+```elixir
+defmodule PartOne do
+  def resolve(input) do
+    IO.puts("--- Part One ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+    [crates_and_ids, actions] = String.split(input, "\n\n")
+
+    actions =
+      actions
+      |> String.split("\n", trim: true)
+      |> Enum.map(fn action ->
+        ~r"move ([0-9]+) from ([1-9]) to ([1-9])"
+        |> Regex.scan(action)
+        |> Enum.map(fn [_, count, from, to] ->
+          {String.to_integer(count), String.to_integer(from), String.to_integer(to)}
+        end)
+      end)
+
+    crates =
+      crates_and_ids
+      |> String.split("\n")
+      # Remove the ids as I don't need it
+      |> Enum.drop(-1)
+      |> Enum.map(fn str ->
+        str
+        |> String.split("")
+        # `[A] ` are 4 chars
+        |> Enum.chunk_every(4, 4, [""])
+        |> Enum.map(fn str ->
+          str
+          |> Enum.join("")
+          |> String.replace(["[", "]"], "")
+          |> String.trim()
+        end)
+        # Pad the list with the same number of
+        |> then(fn list ->
+          l = length(list)
+          n = 10
+
+          if l == n, do: list, else: list ++ List.duplicate("", n - l)
+        end)
+      end)
+      |> Enum.zip()
+      |> Enum.map(fn crate ->
+        crate
+        |> Tuple.to_list()
+        |> Enum.filter(&(&1 != ""))
+      end)
+
+    Enum.reduce(actions, crates, fn [{count, from, to}], crates ->
+      {move, from_crate} =
+        crates
+        |> Enum.at(from - 1)
+        |> Enum.split(count)
+
+      to_crate = Enum.reverse(move) ++ Enum.at(crates, to - 1)
+
+      crates
+      |> List.replace_at(from - 1, from_crate)
+      |> List.replace_at(to - 1, to_crate)
+    end)
+    |> Enum.map(&Enum.take(&1, 1))
+    |> Enum.join("")
+  end
+end
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartOneTest do
+  use ExUnit.Case, async: true
+  import PartOne
+
+  test "part one" do
+    input = """
+        [D]    
+    [N] [C]    
+    [Z] [M] [P]
+    1   2   3 
+
+    move 1 from 2 to 1
+    move 3 from 1 to 3
+    move 2 from 2 to 1
+    move 1 from 1 to 2
+    """
+
+    result = run(input)
+    assert result == "CMZ"
+  end
+end
+
+ExUnit.run()
+```
+
+### Solution
+
+```elixir
+PartOne.resolve("                " <> puzzle_input)
+```
+
+---
+
+<!-- livebook:{"branch_parent_index":0} -->
+
+## Part Two
+
+-> Description Part Two
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Code
+
+```elixir
+defmodule PartTwo do
+  def resolve(input) do
+    IO.puts("--- Part One ---")
+    IO.puts("Result: #{run(input)}")
+  end
+
+  def run(input) do
+    [crates_and_ids, actions] = String.split(input, "\n\n")
+
+    actions =
+      actions
+      |> String.split("\n", trim: true)
+      |> Enum.map(fn action ->
+        ~r"move ([0-9]+) from ([1-9]) to ([1-9])"
+        |> Regex.scan(action)
+        |> Enum.map(fn [_, count, from, to] ->
+          {String.to_integer(count), String.to_integer(from), String.to_integer(to)}
+        end)
+      end)
+
+    crates =
+      crates_and_ids
+      |> String.split("\n")
+      # Remove the ids as I don't need it
+      |> Enum.drop(-1)
+      |> Enum.map(fn str ->
+        str
+        |> String.split("")
+        # `[A] ` are 4 chars
+        |> Enum.chunk_every(4, 4, [""])
+        |> Enum.map(fn str ->
+          str
+          |> Enum.join("")
+          |> String.replace(["[", "]"], "")
+          |> String.trim()
+        end)
+        # Pad the list with the same number of
+        |> then(fn list ->
+          l = length(list)
+          n = 10
+
+          if l == n, do: list, else: list ++ List.duplicate("", n - l)
+        end)
+      end)
+      |> Enum.zip()
+      |> Enum.map(fn crate ->
+        crate
+        |> Tuple.to_list()
+        |> Enum.filter(&(&1 != ""))
+      end)
+
+    Enum.reduce(actions, crates, fn [{count, from, to}], crates ->
+      {move, from_crate} =
+        crates
+        |> Enum.at(from - 1)
+        |> Enum.split(count)
+
+      # Step 1: Enum.reverse(move)
+      # Step 2: move
+      to_crate = move ++ Enum.at(crates, to - 1)
+
+      crates
+      |> List.replace_at(from - 1, from_crate)
+      |> List.replace_at(to - 1, to_crate)
+    end)
+    |> Enum.map(&Enum.take(&1, 1))
+    |> Enum.join("")
+  end
+end
+```
+
+### Tests
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule PartTwoTest do
+  use ExUnit.Case, async: true
+  import PartTwo
+
+  test "part two" do
+    input = """
+        [D]    
+    [N] [C]    
+    [Z] [M] [P]
+    1   2   3 
+
+    move 1 from 2 to 1
+    move 3 from 1 to 3
+    move 2 from 2 to 1
+    move 1 from 1 to 2
+    """
+
+    result = run(input)
+    assert result == "MCD"
+  end
+end
+
+ExUnit.run()
+```
+
+### Solution
+
+```elixir
+PartTwo.resolve("                " <> puzzle_input)
+```
